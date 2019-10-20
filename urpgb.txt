@@ -1,0 +1,7 @@
+"urpgb"
+{
+	"base"			"sandbox"
+	"title"			"urpgb"
+	"menusystem" 		"0"
+	"maps"			"^rp_"
+}
