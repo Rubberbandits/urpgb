@@ -1,13 +1,6 @@
 AddCSLuaFile();
 
 /*
-	Kingston isn't necessarily supposed to be a framework, but a plugin system is helpful for
-	changing functionality when you want to move premise to premise.
-	First we start with detouring hook.Call, then looping through all folders inside of plugins folder,
-	loading all files.
-*/
-
-/*
 	New method for plugins:
 	
 	Instead of detouring hook.Call, we can simply loop through all functions in our gamemode table after loading them

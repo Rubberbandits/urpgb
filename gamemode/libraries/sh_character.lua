@@ -61,3 +61,14 @@ urpgb.character.create_var({
 	default = {},
 	data_type = "VARCHAR (8192) DEFAULT '{}'",
 })
+
+/*
+	Networking
+*/
+
+if CLIENT then
+	local function urpgb_character_set_var(len)
+		
+	end
+	net.Receive("urpgb_character_set_var", urpgb_character_set_var)
+end

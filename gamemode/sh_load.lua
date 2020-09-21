@@ -59,12 +59,6 @@ end
 
 function urpgb.load.begin()
 	urpgb.load.include("modules/sv_database.lua")
-	urpgb.load.include("modules/sh_utf8.lua")
-	urpgb.load.include("modules/sh_pon.lua")
-	urpgb.load.include("modules/sh_netstream2.lua")
-	
-	urpgb.load.include("modules/cl_markup.lua")
-	urpgb.load.include("modules/cl_gui_helper.lua")
 	
 	urpgb.load.include_dir("gui")
 	urpgb.load.include_dir("hooks")
