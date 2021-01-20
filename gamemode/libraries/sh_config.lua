@@ -4,10 +4,10 @@ urpgb.config.data = urpgb.config.data or {}
 urpgb.config.main = urpgb.config.main or {}
 
 function urpgb.config.read(config)
-	local data = file.Read(engine.ActiveGamemode().."/configs/"..config..".txt")
+	local data = file.Read(engine.ActiveGamemode().."/configs/"..config..".json")
 
 	if !data then
-		urpgb.debug.log(Color(255,0,0), "Cannot find configuration file '%s'", config)
+		urpgb.debug.log(Color(255,0,0), "Cannot find configuration file '%s'\n", config)
 		return
 	end
 
@@ -19,10 +19,14 @@ end
 function urpgb.config.write(config)
 	if !urpgb.config.data[config] then
 		urpgb.config.data[config] = {}
-		urpgb.debug.log(Color(0,255,0), "Creating configuration file '%s'", config)
+		urpgb.debug.log(Color(0,255,0), "Creating configuration file '%s'\n", config)
 	end
 
-	file.Write(engine.ActiveGamemode().."/configs/"..config..".txt", util.TableToJSON(urpgb.config.data[config]))
+	if !file.IsDir(engine.ActiveGamemode().."/configs", "DATA") then
+		file.CreateDir(engine.ActiveGamemode().."/configs")
+	end
+
+	file.Write(engine.ActiveGamemode().."/configs/"..config..".json", util.TableToJSON(urpgb.config.data[config]))
 	hook.Run("urpgb_config_saved", config)
 end
 
@@ -90,20 +94,13 @@ hook.Add("ShutDown", "urpgb_config_save", function()
 end)
 
 function GM:urpgb_load_config()
-	local loaded = urpgb.config.read("main")
-	if !loaded then
-		urpgb.config.write("main")
-	end
-
-	local files, dirs = file.Find(engine.ActiveGamemode().."/configs/*.txt", "DATA")
+	local files, dirs = file.Find(engine.ActiveGamemode().."/configs/*.json", "DATA")
 	for _,file in ipairs(files) do
 		urpgb.config.read(string.StripExtension(file))
 	end
 end
 
 function GM:urpgb_save_config()
-	urpgb.config.write("main")
-
 	for config,key in ipairs(urpgb.config.data) do
 		urpgb.config.write(config)
 	end
