@@ -93,7 +93,11 @@ hook.Add("ShutDown", "urpgb_config_save", function()
 	hook.Run("urpgb_save_config")
 end)
 
-function GM:urpgb_load_config()
+function GM:urpgb_load_config()  
+	if !file.Exists(engine.ActiveGamemode().."/configs/main.json", "DATA") then
+		urpgb.config.write("main")
+	end
+
 	local files, dirs = file.Find(engine.ActiveGamemode().."/configs/*.json", "DATA")
 	for _,file in ipairs(files) do
 		urpgb.config.read(string.StripExtension(file))
