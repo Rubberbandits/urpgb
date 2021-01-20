@@ -10,28 +10,6 @@ urpgb.database.auth_info = urpgb.database.auth_info or {}
 
 urpgb.database.transaction_time = 10
 
-urpgb.database.auth_info.primary = {}
-urpgb.database.auth_info.primary.host = "urpgbdev.site.nfoservers.com"
-urpgb.database.auth_info.primary.username = "urpgbdev"
-urpgb.database.auth_info.primary.password = "jrNUiS4mYC"
-urpgb.database.auth_info.primary.database = "urpgbdev_test"
-urpgb.database.auth_info.primary.on_success = function(db)
-	local data = urpgb.database.query("primary", "SHOW TABLES LIKE 'urpgb_characters';")
-	if #data == 0 then
-		local character_table = {}
-		for k,v in next, urpgb.character.vars do
-			character_table[#character_table + 1] = { v.key, v.data_type }
-		end
-		
-		urpgb.database.create_table("primary", "urpgb_characters", character_table)
-		urpgb.database.create_table("primary", "urpgb_items", {
-			{ "CharID", "INT NOT NULL" },
-		})
-		
-		urpgb.debug.log(Color(0,255,0), "Running initial setup for primary database...\n")
-	end
-end
-
 /* Main functions */
 
 -- Creates database object and adds it to our table
