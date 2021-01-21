@@ -20,12 +20,21 @@ function hook.Call(event_name, gamemode, ...)
 		It WILL break other addons.
 	*/
 
-	// First, we'll call all plugin hooks first.
 	if gamemode then
+		// First, we'll call all plugin hooks
 		for _,plugin in next, urpgb.plugin.index do
 			if !plugin[event_name] then continue end
 			local result = plugin[event_name](plugin, ...)
 			
+			if result != nil then
+				return result
+			end
+		end
+
+		// look for the function in the schema
+		if urpgb.schema.loaded[event_name] then
+			local result = urpgb.schema.loaded[event_name](urpgb.schema.loaded, ...)
+		
 			if result != nil then
 				return result
 			end
@@ -49,6 +58,7 @@ hook.Add("urpgb_boot_sequence", "urpgb.load_plugins", function()
 			urpgb.load.include(v)
 			
 			urpgb.plugin.index[string.StripExtension(v)] = PLUGIN
+			PLUGIN = nil
 		end
 	end
 	if #plugin_dirs > 0 then
@@ -58,6 +68,7 @@ hook.Add("urpgb_boot_sequence", "urpgb.load_plugins", function()
 			urpgb.load.include_dir(GM.FolderName.."/plugins/"..v, true, true)
 			
 			urpgb.plugin.index[v] = PLUGIN
+			PLUGIN = nil
 		end
 	end
 end)

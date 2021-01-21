@@ -31,7 +31,7 @@ end
 
 -- Include files based off the prefix within a directory.
 function urpgb.load.include_dir(directory, fromLua, recursive)
-	local baseDir = engine.ActiveGamemode()
+	local baseDir = "urpgb"
 	baseDir = baseDir.."/gamemode/"
 	
 	if recursive then
